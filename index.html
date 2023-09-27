@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to-do list</title>
+    <style type="text/css">
+        .container{
+            width: 500px;
+            height: 400px;
+            background-color: rgb(209, 241, 26);
+            padding: 40px 30px 70px;
+            border-radius: 20px;
+            align-self: center;
+            margin-left: 500px;
+            margin-top: 50px;
+            align-items: center;
+        }
+        body h2{
+            margin-top: 40px;
+            margin-bottom: 30px;
+            font-size: 40px;
+            text-align: center;
+        }
+       body{
+       
+        min-height: 100vh;
+        padding: 30px;
+        background:linear-gradient(130deg,#537aca,#d5e69b,#419674)      ;
+       }
+       .rowl{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 30px;
+        background: #edeef0;
+        margin-bottom: 30px;
+        margin-top: 30px;
+       }
+       input{
+        flex: 1;
+        border: none;
+        outline: none;
+        padding-left: 15px;
+        background: transparent;
+       
+       }
+       .btn-add{
+        width: 80px;
+        border: none;
+        outline: none;
+        padding: 7px;
+        background:orange;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 30px;
+       }
+       .btn-add:hover{
+        background-color: #000;
+        color: orange;
+       }
+       ul li{
+        background-color: #edeef0;
+        list-style-type:none;
+        font-size: 16px;
+       padding-top: 3px;
+       padding-bottom: 9px;
+       padding-left: 10px;
+       padding-right: 5px;
+        user-select:none;
+        cursor: pointer;
+        position: relative;
+        margin-top: 10px;
+        border-radius: 8px;
+        margin-right: 40px;
+       }
+       ul li.checked{
+        text-decoration:line-through;
+       }
+       #alerttext{
+        font-size: 12px;
+        font-weight: light;
+        color: orange;
+        margin-left: 5px;
+       }
+       ul li span{
+        position: absolute;
+        color: orange;
+        font-size: 20px;
+        font-weight: bold;
+        width: 30px;
+        height: 30px;
+        line-height: 25px;
+        text-align: center;
+        right: 0;
+        border-radius: 50%;
+       }
+      
+       ul li span:hover{
+        background: #000;
+       }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>TO-DO List<i class="fa fa-list-alt" aria-hidden="true"></i></h2>
+        <div class="rowl">
+        <input type="text" id="input-text" placeholder="add your text">
+        <button type="button" class="btn-add" onclick="addTask()">Add</button>
+        </div>
+        <p id="alerttext"></p>
+        <ul id="list-container">   
+            <li id="checked">MY TASKS</li> 
+        </ul>
+    </div>
+  <script>
+    const inputBox=document.getElementById('input-text');
+    const listContainer=document.getElementById('list-container');
+    function addTask(){
+        if(inputBox.value===''){
+            document.getElementById(alerttext).innerHTML="you must add something!";
+        }
+        else{
+            let li=document.createElement("li");
+            li.innerHTML=inputBox.value;
+            listContainer.appendChild(li);
+            let span=document.createElement("span");
+            span.innerHTML='\u00d7';
+            li.appendChild(span);
+        }
+        inputBox.value="";
+        saveData();
+    }
+
+    listContainer.addEventListener("click",function(e){
+        if(e.target.tagName==="LI"){
+            e.target.classList.toggle("checked");
+            saveData();
+        }
+        else if(e.target.tagName==="SPAN"){
+            e.target.parentElement.remove();
+            saveData();
+        }
+    },false);
+
+    function saveData(){
+        localStorage.setItem("lists",listContainer.innerHTML);
+    }
+    function showData(){
+        document.getElementById('list-container').innerHTML=localStorage.getItem("lists");
+    }
+    showData();
+  </script>
+</body>
+</html>
